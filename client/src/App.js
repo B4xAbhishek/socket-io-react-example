@@ -16,7 +16,8 @@ function App() {
   useEffect(() => {
 
     socket.on("increase_button", (data) => {
-          setArr(data)
+
+          setArr((prev) => [...prev,data.length])
           console.log(data)
         });
     
