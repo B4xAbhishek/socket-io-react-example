@@ -16,17 +16,24 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
+  console.log(`User Connected?: ${socket.id}`);
 
-  socket.on("join_room", (data) => {
-    socket.join(data);
+  // socket.on("send_message", (data) => {
+  //   socket.broadcast.emit("receive_message", data);
+  //   console.log("data is", data)
+  // });
+
+  socket.on("increase_counter1", (data) => {
+    socket.broadcast.emit("increase_counter1", parseInt(data.count1));
+    // console.log("data is", data.count1)
   });
 
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
+  socket.on("increase_button", (data) => {
+    socket.broadcast.emit("increase_counter1", (data.arr));
+    console.log("data is", data.arr,data)
   });
 });
 
 server.listen(3001, () => {
-  console.log("SERVER IS RUNNING");
+  console.log(`SERVER IS RUNNING at`);
 });

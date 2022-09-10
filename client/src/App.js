@@ -1,52 +1,43 @@
-import "./App.css";
+import React,{useState,useEffect} from 'react'
 import io from "socket.io-client";
-import { useEffect, useState } from "react";
+import Main from './Main'
 
 const socket = io.connect("http://localhost:3001");
 
 function App() {
-  //Room State
-  const [room, setRoom] = useState("");
 
-  // Messages States
-  const [message, setMessage] = useState("");
-  const [messageReceived, setMessageReceived] = useState("");
-
-  const joinRoom = () => {
-    if (room !== "") {
-      socket.emit("join_room", room);
-    }
-  };
-
-  const sendMessage = () => {
-    socket.emit("send_message", { message, room });
-  };
+  const [arr,setArr] = useState([])
+  const addmain = () => {
+    //make new component
+    setArr([...arr,arr.length])
+    socket.emit("increase_button", { arr });
+  }
 
   useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessageReceived(data.message);
-    });
-  }, [socket]);
+
+    socket.on("increase_button", (data) => {
+          setArr(data)
+          console.log(data)
+        });
+    
+        return () => {
+          socket.off('increase_button')
+        }
+      }, [socket]);
+
+  console.log(arr)
   return (
-    <div className="App">
-      <input
-        placeholder="Room Number..."
-        onChange={(event) => {
-          setRoom(event.target.value);
-        }}
-      />
-      <button onClick={joinRoom}> Join Room</button>
-      <input
-        placeholder="Message..."
-        onChange={(event) => {
-          setMessage(event.target.value);
-        }}
-      />
-      <button onClick={sendMessage}> Send Message</button>
-      <h1> Message:</h1>
-      {messageReceived}
+    <div>
+      <h2>Project1</h2>
+      <Main button={"button"}/>
+      <h2>Project2</h2>
+    {Array.isArray(arr) && arr.map((index) => <Main button={"button"+(index+1)} />)}
+    <button onClick={addmain}>Add More Buttons</button>
+    <br/>
+    
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
