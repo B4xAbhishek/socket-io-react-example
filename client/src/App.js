@@ -31,7 +31,7 @@ function App() {
       <h2>Project1</h2>
       <Main button={"button"}/>
       <h2>Project2</h2>
-    {Array.isArray(arr) && arr.map((index) => <Main button={"button"+(index+1)} />)}
+    {Array.isArray(arr) && arr.map((index) => <Main key={index} button={"button"+(index+1)} />)}
     <button onClick={addmain}>Add More Buttons</button>
     <br/>
     

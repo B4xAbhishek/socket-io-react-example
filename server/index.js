@@ -29,8 +29,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("increase_button", (data) => {
-    socket.broadcast.emit("increase_counter1", (data.arr));
-    console.log("data is", data.arr,data)
+    socket.broadcast.emit("increase_button", (data.arr));
+    console.log("data is", data)
   });
 });
 
